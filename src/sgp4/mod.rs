@@ -10,7 +10,9 @@ pub mod omm;
 pub mod constants;
 pub mod math;
 pub mod kepler;
+pub mod perturbations;
 
 pub use elements::OrbitalElements;
 pub use tle::{TleParser, TleError};
 pub use omm::{OmmParser, OmmError};
+pub use perturbations::{PerturbationState, compute_perturbations};

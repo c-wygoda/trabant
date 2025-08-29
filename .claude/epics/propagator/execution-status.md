@@ -10,12 +10,13 @@ branch: epic/propagator
 - Task #003: EOP Data Handler (parallel: true) - 3 streams identified
 
 ## Active Agents
-- Task #001 Stream A: Core Types & TLE Parser - ✅ COMPLETED
-- Task #001 Stream B: OMM Parser & JSON - ✅ COMPLETED
-- Task #003 Stream A: EOP Types & Structure - ✅ COMPLETED
+- Task #002 Stream A: Constants & Math Utilities - ✅ COMPLETED  
+- Task #002 Stream B: Kepler Equation Solver - ✅ COMPLETED
+- Task #002 Stream C: Perturbation Models - 🚧 LAUNCHING
+- Task #002 Stream D: Main Propagator - ⏸ Waiting for Stream C
 
-## Ready to Start (Dependencies Met)
-- Task #002: Core SGP4 Implementation - Ready! (Task #001 completed)
+## Currently Active
+- Task #002: Core SGP4 Implementation - 50% complete (Streams A,B done; C,D in progress)
 
 ## Partially Ready
 - Task #003: EOP Data Handler - 1/3 streams completed
@@ -36,3 +37,6 @@ branch: epic/propagator
   - Stream C: Comprehensive unit tests (14 tests passing)
 - ✅ Task #003: EOP Data Handler (1 of 3 streams completed)
   - Stream A: EOP data structures and interpolation cache
+- 🔄 Task #002: Core SGP4 Implementation (2 of 4 streams completed)
+  - Stream A: WGS84/SGP4 constants and mathematical utilities (5 tests)
+  - Stream B: Kepler equation solver with Newton-Raphson (8 tests)
