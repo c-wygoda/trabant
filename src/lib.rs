@@ -1,3 +1,9 @@
+pub mod sgp4;
+pub mod eop;
+
+pub use sgp4::{OrbitalElements, TleParser, OmmParser};
+pub use eop::{EopData, EopCache};
+
 pub fn add(left: u64, right: u64) -> u64 {
     left + right
 }
