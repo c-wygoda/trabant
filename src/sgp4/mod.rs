@@ -7,6 +7,9 @@
 pub mod elements;
 pub mod tle;
 pub mod omm;
+pub mod constants;
+pub mod math;
+pub mod kepler;
 
 pub use elements::OrbitalElements;
 pub use tle::{TleParser, TleError};
