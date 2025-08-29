@@ -11,8 +11,10 @@ pub mod constants;
 pub mod math;
 pub mod kepler;
 pub mod perturbations;
+pub mod propagator;
 
 pub use elements::OrbitalElements;
 pub use tle::{TleParser, TleError};
 pub use omm::{OmmParser, OmmError};
 pub use perturbations::{PerturbationState, compute_perturbations};
+pub use propagator::{Sgp4Propagator, StateVector, Sgp4Error};
