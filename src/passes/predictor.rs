@@ -333,7 +333,7 @@ mod tests {
         let omm_data = r#"{
             "OBJECT_NAME": "HOTSAT-1",
             "OBJECT_ID": "2023-084Y",
-            "EPOCH": "2025-08-29T07:07:09.975072",
+            "EPOCH": "2025-08-29T07:07:09.975072Z",
             "MEAN_MOTION": 15.2188016,
             "ECCENTRICITY": 0.00054784,
             "INCLINATION": 97.5868,
@@ -350,8 +350,7 @@ mod tests {
             "MEAN_MOTION_DDOT": 0
         }"#;
 
-        let parser = OmmParser::new();
-        parser.parse(omm_data).unwrap()
+        OmmParser::parse(omm_data).unwrap()
     }
 
     fn create_test_observer() -> Observer {

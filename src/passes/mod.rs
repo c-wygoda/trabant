@@ -11,8 +11,11 @@
 //! orbital propagation with observer-specific calculations to find satellite passes.
 
 pub mod predictor;
+pub mod optimization;
+pub mod events;
 
 pub use predictor::PassPredictor;
+pub use optimization::{PerformanceOptimizer, OptimizationConfig, OptimizationError, PerformanceMetrics};
 
 /// Represents a complete satellite pass over an observer
 #[derive(Debug, Clone, PartialEq)]

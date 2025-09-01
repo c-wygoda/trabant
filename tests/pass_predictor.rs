@@ -13,7 +13,7 @@ fn test_pass_predictor_integration() {
     let omm_data = r#"{
         "OBJECT_NAME": "HOTSAT-1",
         "OBJECT_ID": "2023-084Y",
-        "EPOCH": "2025-08-29T07:07:09.975072",
+        "EPOCH": "2025-08-29T07:07:09.975072Z",
         "MEAN_MOTION": 15.2188016,
         "ECCENTRICITY": 0.00054784,
         "INCLINATION": 97.5868,
@@ -30,8 +30,7 @@ fn test_pass_predictor_integration() {
         "MEAN_MOTION_DDOT": 0
     }"#;
 
-    let parser = OmmParser::new();
-    let elements = parser.parse(omm_data).unwrap();
+    let elements = OmmParser::parse(omm_data).unwrap();
     let propagator = Sgp4Propagator::new(elements.clone()).unwrap();
 
     // Create Berlin observer
@@ -95,7 +94,7 @@ fn test_pass_predictor_time_validation() {
     let omm_data = r#"{
         "OBJECT_NAME": "TEST-SAT",
         "OBJECT_ID": "TEST-ID",
-        "EPOCH": "2025-08-29T07:07:09.975072",
+        "EPOCH": "2025-08-29T07:07:09.975072Z",
         "MEAN_MOTION": 15.0,
         "ECCENTRICITY": 0.001,
         "INCLINATION": 90.0,
@@ -112,8 +111,7 @@ fn test_pass_predictor_time_validation() {
         "MEAN_MOTION_DDOT": 0
     }"#;
 
-    let parser = OmmParser::new();
-    let elements = parser.parse(omm_data).unwrap();
+    let elements = OmmParser::parse(omm_data).unwrap();
     let propagator = Sgp4Propagator::new(elements).unwrap();
     let observer = Observer::new(0.0, 0.0, 0.0).unwrap();
     
