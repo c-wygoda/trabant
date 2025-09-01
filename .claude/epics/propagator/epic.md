@@ -4,7 +4,7 @@ status: backlog
 created: 2025-08-29T14:31:14Z
 progress: 0%
 prd: .claude/prds/propagator.md
-github: [Will be updated when synced to GitHub]
+github: https://github.com/c-wygoda/trabant/issues/10
 ---
 
 # Epic: Propagator
@@ -155,14 +155,14 @@ Simplified task structure focusing on incremental delivery:
 - Test satellite TLEs
 
 ## Tasks Created
-- [ ] 001.md - TLE/OMM Parser (parallel: true)
-- [ ] 002.md - Core SGP4 Implementation (parallel: false)
-- [ ] 003.md - EOP Data Handler (parallel: true)
-- [ ] 004.md - Coordinate Transformations (parallel: false)
-- [ ] 005.md - Observer Calculations (parallel: false)
-- [ ] 006.md - Pass Prediction Engine (parallel: false)
-- [ ] 007.md - Integration Testing (parallel: false)
-- [ ] 008.md - Performance Optimization (parallel: false)
+- [ ] #11 - TLE/OMM Parser (parallel: true)
+- [ ] #12 - Core SGP4 Implementation (parallel: false)
+- [ ] #13 - EOP Data Handler (parallel: true)
+- [ ] #14 - Coordinate Transformations (parallel: false)
+- [ ] #15 - Observer Calculations (parallel: false)
+- [ ] #16 - Pass Prediction Engine (parallel: false)
+- [ ] #17 - Integration Testing (parallel: false)
+- [ ] #18 - Performance Optimization (parallel: false)
 
 Total tasks: 8
 Parallel tasks: 2
