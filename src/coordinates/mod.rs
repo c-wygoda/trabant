@@ -42,6 +42,7 @@ impl std::fmt::Display for CoordinateError {
 impl std::error::Error for CoordinateError {}
 
 /// Coordinate transformation context
+#[derive(Debug, Clone)]
 pub struct CoordinateContext {
     pub time: DateTime<Utc>,
     pub eop: EopData,
