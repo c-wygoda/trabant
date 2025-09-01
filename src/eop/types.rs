@@ -153,6 +153,119 @@ impl EopCache {
             max_mjd: i64::MIN,
         }
     }
+
+    /// Load EOP data from CSV file
+    pub fn from_file<P: AsRef<std::path::Path>>(path: P) -> Result<Self, EopError> {
+        let content = std::fs::read_to_string(path)
+            .map_err(|e| EopError::ParseError(format!("Failed to read file: {}", e)))?;
+        
+        Self::from_csv(&content)
+    }
+
+    /// Parse EOP data from CSV content
+    pub fn from_csv(content: &str) -> Result<Self, EopError> {
+        let mut cache = EopCache::new();
+        let mut lines = content.lines();
+        
+        // Skip header line if present
+        if let Some(first_line) = lines.next() {
+            if first_line.contains("MJD") || first_line.contains("mjd") {
+                // This looks like a header, skip it
+            } else {
+                // Parse first line as data
+                if let Ok(eop) = Self::parse_csv_line(first_line) {
+                    cache.insert(eop);
+                }
+            }
+        }
+        
+        // Parse remaining lines
+        for line in lines {
+            let line = line.trim();
+            if line.is_empty() || line.starts_with('#') {
+                continue;
+            }
+            
+            match Self::parse_csv_line(line) {
+                Ok(eop) => cache.insert(eop),
+                Err(e) => return Err(e),
+            }
+        }
+        
+        if cache.data.is_empty() {
+            return Err(EopError::NoDataAvailable);
+        }
+        
+        Ok(cache)
+    }
+
+    /// Parse single CSV line into EopData
+    fn parse_csv_line(line: &str) -> Result<EopData, EopError> {
+        let fields: Vec<&str> = line.split(',').collect();
+        
+        if fields.len() < 6 {
+            return Err(EopError::ParseError(format!("Insufficient fields in line: {}", line)));
+        }
+        
+        // Format: DATE,MJD,X,Y,UT1-UTC,LOD,DPSI,DEPS,DX,DY,DAT,DATA_TYPE
+        // We use the MJD field (index 1), not the DATE field (index 0)
+        let mjd = fields[1].trim().parse::<i64>()
+            .map_err(|_| EopError::ParseError(format!("Invalid MJD: {}", fields[1])))?;
+        
+        let x_pole = fields[2].trim().parse::<f64>()
+            .map_err(|_| EopError::ParseError(format!("Invalid x_pole: {}", fields[2])))?;
+        
+        let y_pole = fields[3].trim().parse::<f64>()
+            .map_err(|_| EopError::ParseError(format!("Invalid y_pole: {}", fields[3])))?;
+        
+        let ut1_utc = fields[4].trim().parse::<f64>()
+            .map_err(|_| EopError::ParseError(format!("Invalid UT1-UTC: {}", fields[4])))?;
+        
+        let lod = fields[5].trim().parse::<f64>()
+            .map_err(|_| EopError::ParseError(format!("Invalid LOD: {}", fields[5])))?;
+        
+        // Optional fields (nutation corrections)
+        // Format: DATE,MJD,X,Y,UT1-UTC,LOD,DPSI,DEPS,DX,DY,DAT,DATA_TYPE
+        let dpsi = if fields.len() > 6 && !fields[6].trim().is_empty() {
+            Some(fields[6].trim().parse::<f64>()
+                .map_err(|_| EopError::ParseError(format!("Invalid dpsi: {}", fields[6])))?)
+        } else {
+            None
+        };
+        
+        let deps = if fields.len() > 7 && !fields[7].trim().is_empty() {
+            Some(fields[7].trim().parse::<f64>()
+                .map_err(|_| EopError::ParseError(format!("Invalid deps: {}", fields[7])))?)
+        } else {
+            None
+        };
+        
+        let dx_cip = if fields.len() > 8 && !fields[8].trim().is_empty() {
+            Some(fields[8].trim().parse::<f64>()
+                .map_err(|_| EopError::ParseError(format!("Invalid dX: {}", fields[8])))?)
+        } else {
+            None
+        };
+        
+        let dy_cip = if fields.len() > 9 && !fields[9].trim().is_empty() {
+            Some(fields[9].trim().parse::<f64>()
+                .map_err(|_| EopError::ParseError(format!("Invalid dY: {}", fields[9])))?)
+        } else {
+            None
+        };
+        
+        Ok(EopData {
+            mjd,
+            x_pole,
+            y_pole,
+            ut1_utc,
+            lod,
+            dx_cip,
+            dy_cip,
+            dpsi,
+            deps,
+        })
+    }
     
     /// Add EOP data to cache
     pub fn insert(&mut self, eop_data: EopData) {
